@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AurisPlayer – Offline-first audio player</title>
+  <style>
+    :root {
+      --bg: #0b0414;
+      --bg-soft: #1b1026;
+      --accent: #7c4dff;
+      --accent-soft: rgba(124, 77, 255, 0.15);
+      --text: #f9f5ff;
+      --muted: #b8a8d9;
+      --card-radius: 18px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top, #22152f 0, #07020e 45%, #020008 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 16px 72px;
+    }
+    header.hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 2fr);
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+    header.hero-logo {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    header.hero-logo img {
+      width: 72px;
+      height: 72px;
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+    header.hero h1 {
+      font-size: clamp(2.1rem, 3vw, 2.6rem);
+      margin: 0 0 6px;
+      letter-spacing: 0.03em;
+    }
+    header.hero p.tagline {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+    .hero-card {
+      background: radial-gradient(circle at top left, rgba(0, 255, 255, 0.12), rgba(0, 0, 0, 0.85));
+      border-radius: var(--card-radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0 18px;
+    }
+    .pill {
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(10, 6, 30, 0.7);
+      color: var(--muted);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 6px;
+    }
+    .hero-actions .primary {
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #7c4dff, #ff6fed);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: default;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+    .hero-actions .secondary {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .hero-phone {
+      position: relative;
+      max-width: 320px;
+      margin: 0 auto;
+      aspect-ratio: 9/19;
+      border-radius: 32px;
+      padding: 10px;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.2), rgba(0,0,0,1));
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .hero-phone-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 26px;
+      overflow: hidden;
+      background: #000;
+    }
+    .hero-phone-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    section {
+      margin-top: 40px;
+    }
+    section h2 {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+    section p.lead {
+      color: var(--muted);
+      margin-top: 0;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+    .card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(9, 3, 24, 0.98));
+      border-radius: var(--card-radius);
+      padding: 14px 16px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
+    }
+    .card h3 {
+      font-size: 1rem;
+      margin: 0 0 6px;
+    }
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .screens-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .screen-card {
+      background: rgba(4, 1, 12, 0.95);
+      border-radius: 20px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6);
+    }
+    .screen-card img {
+      width: 100%;
+      border-radius: 18px;
+      display: block;
+    }
+    .screen-card span {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    details.privacy {
+      margin-top: 18px;
+      background: rgba(4, 1, 12, 0.96);
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px 14px 14px;
+      max-height: 400px;
+      overflow: auto;
+    }
+    details.privacy summary {
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    details.privacy pre {
+      white-space: pre-wrap;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      padding-bottom: 8px;
+    }
+    @media (max-width: 768px) {
+      header.hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      header.hero-logo {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div>
+        <div class="hero-card">
+          <div class="hero-logo">
+            <img src="aurisplayer_icon_512.png" alt="AurisPlayer icon" />
+            <div>
+              <h1>AurisPlayer</h1>
+              <p class="tagline">Offline-first audio player with sleep timer, radio, and equalizer.</p>
+            </div>
+          </div>
+          <div class="pill-row">
+            <span class="pill">Local files · Playlists · M3U</span>
+            <span class="pill">Stream URLs &amp; radio</span>
+            <span class="pill">Shake-to-extend sleep timer</span>
+          </div>
+          <p style="font-size:0.95rem; color:var(--muted); margin:0 0 4px;">
+            A focused audio player for music, audiobooks, and radio. No accounts, no ads, no tracking — just your audio.
+          </p>
+          <div class="hero-actions">
+            <button class="primary">Coming soon to Google Play</button>
+            <span class="secondary">Free · No ads · No analytics</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-phone">
+        <div class="hero-phone-inner">
+          <img src="Player.png" alt="AurisPlayer playback screen" />
+        </div>
+      </div>
+    </header>
+
+    <section id="features">
+      <h2>Designed for listening, not distractions</h2>
+      <p class="lead">Everything you need to listen the way you want, from offline libraries to late-night sleep timers.</p>
+      <div class="features-grid">
+        <div class="card">
+          <h3>Local library first</h3>
+          <p>Scan folders, browse by artist or album, and keep full control over where your audio lives. Supports playlists and M3U files.</p>
+        </div>
+        <div class="card">
+          <h3>Smart sleep timer</h3>
+          <p>Set a timer, keep the current track to the end, or gently extend with a shake when you’re not quite asleep yet.</p>
+        </div>
+        <div class="card">
+          <h3>Radio &amp; streams</h3>
+          <p>Add your favourite radio stations and streaming URLs. AurisPlayer connects directly, without any extra accounts.</p>
+        </div>
+        <div class="card">
+          <h3>Built-in equalizer</h3>
+          <p>Fine-tune sound with multiple bands and presets like bass boost, treble boost, and vocal focus.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenshots">
+      <h2>App screenshots</h2>
+      <p class="lead">Real UI from the current Android build.</p>
+      <div class="screens-grid">
+        <div class="screen-card">
+          <img src="Player.png" alt="Now playing screen" />
+          <span>Now playing: clean playback screen with big controls and timer.</span>
+        </div>
+        <div class="screen-card">
+          <img src="Equalizer.png" alt="Equalizer screen" />
+          <span>System-wide equalizer with presets and multi-band sliders.</span>
+        </div>
+        <div class="screen-card">
+          <img src="Radio.png" alt="Radio stations list" />
+          <span>Saved internet radio stations, with descriptions and one-tap play.</span>
+        </div>
+        <div class="screen-card">
+          <img src="Sleep_Timer.png" alt="Sleep timer dialog" />
+          <span>Sleep timer with shake-to-extend and per-minute adjustments.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <h2>Privacy &amp; data safety</h2>
+      <p class="lead">AurisPlayer is built to work offline and avoid collecting personal data.</p>
+      <details class="privacy" open>
+        <summary>Read the full privacy &amp; data safety notice</summary>
+        <pre># AurisPlayer Privacy & Data Safety
+
+Last updated: 2025-11-19
+
+## Overview
+- AurisPlayer is an offline-first audio player. It does not require an account and does not include ads or analytics.
+- No personal data is collected or shared by the developer. All library, playlist, and preference data stays on your device.
+- Network use occurs only when you choose to stream audio from a URL or open an external streaming service; traffic in that case goes directly to the chosen provider, not to the AurisPlayer developer.
+
+## What the app accesses and why
+- **Local audio files and metadata**: Needed to read, list, and play the music you select from device storage and SD cards. Metadata (e.g., title, artist, album art) is used only for display in the app.
+- **Playlists, streams, sleep timer, and settings**: Stored locally to remember your library organization, configured streams, and preferences (e.g., shake-to-add-5-minutes timer).
+- **Streaming URLs you add**: Saved locally for quick access. The URL is sent only to the streaming endpoint to play audio.
+- **Sensors (shake gesture)**: Used locally to extend the sleep timer when you shake the device; no motion data is transmitted.
+
+## Android permissions used
+- `READ_MEDIA_AUDIO`, `READ_EXTERNAL_STORAGE`, `WRITE_EXTERNAL_STORAGE`: Access your audio library on device/SD card to read and write playlists (M3U) and small JSON settings files.
+- `INTERNET`, `ACCESS_NETWORK_STATE`, `CHANGE_NETWORK_STATE`, `ACCESS_WIFI_STATE`, `CHANGE_WIFI_MULTICAST_STATE`: Required for user-initiated streaming and to handle network connectivity when playing streams.
+- `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, `WAKE_LOCK`: Keep playback running reliably in the background.
+- `POST_NOTIFICATIONS`: Show playback controls and timers in notifications.
+- `requestLegacyExternalStorage` (manifest flag): Ensures compatibility with existing media libraries on older Android versions.
+
+## Data handling
+- **Storage**: Library index, playlists, custom streams, and preferences are kept on-device (internal app storage or app-managed files). They are not copied to any server by the app.
+- **Sharing**: The developer does not receive or share your data. When you play a stream, audio traffic goes to the stream host you chose (and follows that host's privacy practices).
+- **Retention**: Data persists only on your device until you delete it (remove playlists/streams) or uninstall the app.
+- **Security**: No custom backend is used. Network requests for streaming rely on the protocol used by the stream (HTTPS when available; HTTP streams are allowed because some radios require it).
+- **Scoped storage**: The app does not request “All files” (`MANAGE_EXTERNAL_STORAGE`). It writes playlists (M3U) and settings JSON only to user-selected or app-managed music folders.
+
+## Data Safety (Google Play summary)
+- Data collected: **None** by the developer (no personal or sensitive data categories are collected).
+- Data shared: **None** by the developer.
+- Optional data flowing off-device: Only audio traffic to the streaming endpoints you choose; no data is sent to the developer.
+- Data deletion: Remove playlists/streams in-app or uninstall to clear all app data from the device.
+
+## Third-party services and libraries
+The app uses open-source Flutter packages for audio playback (`just_audio`, `audio_service`, `just_audio_background`), media scanning (`on_audio_query`, `file_picker`), preferences (`shared_preferences`), device/permission checks (`permission_handler`, `device_info_plus`), motion detection (`sensors_plus`), and external app launching (`url_launcher`). These are used locally and do not send your data to the AurisPlayer developer.
+
+## Children’s privacy
+The app is not directed to children under 13 and should be used by individuals with the ability to manage their own media content.
+
+## Contact
+For privacy questions or requests, contact email(mux.leet@gmail.com).</pre>
+      </details>
+    </section>
+
+    <footer>
+      &copy; 2025 AurisPlayer. All rights reserved.
+    </footer>
+  </main>
+</body>
+</html>
