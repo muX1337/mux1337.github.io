@@ -129,6 +129,42 @@
       object-fit: cover;
       display: block;
     }
+    .tablet-section {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: 18px;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(124, 77, 255, 0.08), rgba(6, 2, 16, 0.95));
+      border-radius: var(--card-radius);
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: var(--shadow-soft);
+    }
+    .tablet-copy h3 {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+    }
+    .tablet-copy p {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .tablet-copy ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .tablet-copy li {
+      margin-bottom: 4px;
+    }
+    .tablet-shot {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      display: block;
+    }
     section {
       margin-top: 40px;
     }
@@ -221,6 +257,9 @@
       header.hero-logo {
         margin-bottom: 10px;
       }
+      .tablet-section {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -276,6 +315,24 @@
         <div class="card">
           <h3>Built-in equalizer</h3>
           <p>Fine-tune sound with multiple bands and presets like bass boost, treble boost, and vocal focus.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tablet">
+      <h2>Built for phones and tablets</h2>
+      <div class="tablet-section">
+        <div class="tablet-copy">
+          <h3>Tablet support for couch listening</h3>
+          <p>Landscape-friendly layouts, larger controls, and two-pane browsing make AurisPlayer comfortable on bigger screens.</p>
+          <ul>
+            <li>Adaptive UI that scales libraries and playlists across screen sizes</li>
+            <li>Large playback controls you can reach from the desk or sofa</li>
+            <li>Responsive equalizer and radio lists tuned for wide view</li>
+          </ul>
+        </div>
+        <div>
+          <img class="tablet-shot" src="tablet.png" alt="AurisPlayer tablet layout" />
         </div>
       </div>
     </section>
@@ -355,7 +412,7 @@ For privacy questions or requests, contact email(mux.leet@gmail.com).</pre>
     </section>
 
     <footer>
-      &copy; 2025 AurisPlayer. All rights reserved.
+      Built with ❤️ by muX1337 — 2025
     </footer>
   </main>
 </body>
