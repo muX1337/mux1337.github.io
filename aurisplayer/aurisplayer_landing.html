@@ -101,6 +101,20 @@
       cursor: default;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
     }
+    .play-badge {
+      display: inline-block;
+      line-height: 0;
+    }
+    .play-badge img {
+      height: 56px;
+      width: auto;
+      display: block;
+    }
+    .tester-note {
+      margin: 10px 0 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
     .hero-actions .secondary {
       font-size: 0.9rem;
       color: var(--muted);
@@ -284,11 +298,16 @@
             A focused audio player for music, audiobooks, and radio. No accounts, no ads, no tracking — just your audio.
           </p>
           <div class="hero-actions">
-            <a href="app-release.apk" download>
-            <button class="primary">Download apk</button>
+            <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.aurisplayer.app" target="_blank" rel="noopener">
+              <img src="google-play-badge.png" alt="Get it on Google Play" />
             </a>
             <span class="secondary">Free · No ads · No analytics</span>
           </div>
+          <p class="tester-note">
+            Currently in closed testing on Google Play. Testers can
+            <a href="https://play.google.com/apps/testing/com.aurisplayer.app" target="_blank" rel="noopener">join the test</a>
+            to install the latest build.
+          </p>
         </div>
       </div>
       <div class="hero-phone">
@@ -312,7 +331,7 @@
         </div>
         <div class="card">
           <h3>Radio &amp; streams</h3>
-          <p>Add your favourite radio stations and streaming URLs. AurisPlayer connects directly, without any extra accounts.</p>
+          <p>Add your favourite radio stations and streaming URLs, or search the built-in station directory. AurisPlayer connects directly, without any extra accounts.</p>
         </div>
         <div class="card">
           <h3>Built-in equalizer</h3>
@@ -367,19 +386,20 @@
       <p class="lead">AurisPlayer is built to work offline and avoid collecting personal data.</p>
       <details class="privacy" open>
         <summary>Read the full privacy &amp; data safety notice</summary>
-        <pre># AurisPlayer Privacy & Data Safety
+        <pre># AurisPlayer Privacy &amp; Data Safety
 
-Last updated: 2025-11-19
+Last updated: 2026-10-28
 
 ## Overview
 - AurisPlayer is an offline-first audio player. It does not require an account and does not include ads or analytics.
 - No personal data is collected or shared by the developer. All library, playlist, and preference data stays on your device.
-- Network use occurs only when you choose to stream audio from a URL or open an external streaming service; traffic in that case goes directly to the chosen provider, not to the AurisPlayer developer.
+- Network use occurs only when you choose to stream audio from a URL, search the station directory, or open an external streaming service; traffic in that case goes directly to the chosen provider, not to the AurisPlayer developer.
 
 ## What the app accesses and why
 - **Local audio files and metadata**: Needed to read, list, and play the music you select from device storage and SD cards. Metadata (e.g., title, artist, album art) is used only for display in the app.
 - **Playlists, streams, sleep timer, and settings**: Stored locally to remember your library organization, configured streams, and preferences (e.g., shake-to-add-5-minutes timer).
 - **Streaming URLs you add**: Saved locally for quick access. The URL is sent only to the streaming endpoint to play audio.
+- **Station search (optional)**: When you open "Find stations" on the radio screen, the app queries the community-run [Radio Browser](https://www.radio-browser.info) directory. It sends your search text or the selected genre, and your device's country code for the "popular in your country" list. When you play a station found there, the app reports a play ("click") for that station so the directory can rank popular stations. Like any web request, these reach Radio Browser's servers together with your IP address. Station logos shown in results are loaded from the stations' own websites.
 - **Sensors (shake gesture)**: Used locally to extend the sleep timer when you shake the device; no motion data is transmitted.
 
 ## Android permissions used
@@ -391,7 +411,7 @@ Last updated: 2025-11-19
 
 ## Data handling
 - **Storage**: Library index, playlists, custom streams, and preferences are kept on-device (internal app storage or app-managed files). They are not copied to any server by the app.
-- **Sharing**: The developer does not receive or share your data. When you play a stream, audio traffic goes to the stream host you chose (and follows that host's privacy practices).
+- **Sharing**: The developer does not receive or share your data. When you play a stream, audio traffic goes to the stream host you chose (and follows that host's privacy practices). Station searches go to Radio Browser (see above).
 - **Retention**: Data persists only on your device until you delete it (remove playlists/streams) or uninstall the app.
 - **Security**: No custom backend is used. Network requests for streaming rely on the protocol used by the stream (HTTPS when available; HTTP streams are allowed because some radios require it).
 - **Scoped storage**: The app does not request “All files” (`MANAGE_EXTERNAL_STORAGE`). It writes playlists (M3U) and settings JSON only to user-selected or app-managed music folders.
@@ -399,7 +419,7 @@ Last updated: 2025-11-19
 ## Data Safety (Google Play summary)
 - Data collected: **None** by the developer (no personal or sensitive data categories are collected).
 - Data shared: **None** by the developer.
-- Optional data flowing off-device: Only audio traffic to the streaming endpoints you choose; no data is sent to the developer.
+- Optional data flowing off-device: Audio traffic to the streaming endpoints you choose, and station searches to the Radio Browser directory when you use "Find stations"; no data is sent to the developer.
 - Data deletion: Remove playlists/streams in-app or uninstall to clear all app data from the device.
 
 ## Third-party services and libraries
@@ -414,7 +434,7 @@ For privacy questions or requests, contact email(mux.leet@gmail.com).</pre>
     </section>
 
     <footer>
-      Built with ❤️ by <a href="https://github.com/muX1337" target="_blank" rel="noopener noreferrer">muX1337</a> — 2025
+      Built with ❤️ by <a href="https://github.com/muX1337" target="_blank" rel="noopener noreferrer">muX1337</a> — 2026
     </footer>
   </main>
 </body>
